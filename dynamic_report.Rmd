@@ -84,7 +84,9 @@ graph_2 <- ggplot(latest_data) +
 
 # Average time awake in bed and hours slept
 avg_time_awake <- mean(as.numeric(latest_data$time_awake_in_bed))
+max_time_awake <- max(latest_data$time_awake_in_bed)
 avg_time_sleep <- mean(latest_data$hours_slept)
+min_time_sleep <- min(latest_data$hours_slept)
 
 graph_1
 graph_2
@@ -93,9 +95,9 @@ graph_2
 
 Of the data collected:
 
-- The average time awake in bed is `r round(avg_time_awake, 1)` hours.
+- The average time awake in bed is **`r round(avg_time_awake, 1)`** hours. With some participants spending up to **`r max_time_awake`** hours in bed.
 
-- The average time asleep is `r round(avg_time_sleep, 1)` hours.
+- The average time asleep is **`r round(avg_time_sleep, 1)`** hours. With some participants sleeping as little as **`r min_time_sleep`** hours.
 
 There is a clear trend that an increase in sleep time would lead to a greater mood level. Further discussion can be made on how to reduce the time awake in bed to maximize sleep time. 
 
