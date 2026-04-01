@@ -1,0 +1,116 @@
+---
+title: My dynamic report
+output: html_fragment
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+
+```
+
+```{css}
+.text-container {
+  max-width: 700px;
+  margin: 40px auto;
+  text-align: left;
+}
+
+img {
+  display: block;
+  margin: 20px auto;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  background-color: #fafafa;
+  padding: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+img:hover {
+  transform: scale(1.02);
+  transition: 0.2s ease;
+}
+
+```
+
+<div class="text-container">
+
+## A comparison of hours slept, mood level, and time awake in bed.
+
+This survey was conducted through a Google Form. It measures the time a participant got into bed, the time they got out of bed, how many hours they slept, and their overall mood level. With the data collected it aims to correlate mood levels with sleep time. A sub-objective of this survey was to calculate the amount time a participant would spend awake in bed. 
+
+</div>
+
+```{r}
+# Packages ---
+library(tidyverse)
+
+# Data Frame ---
+
+form_url <- "https://docs.google.com/spreadsheets/d/e/2PACX-1vTb5xGrGxrBPfxQMlz7RfKBx8OZy7eUPJ3l0hMqlErE0Fnrf2tGihoPVWLMwmTgYm3tCRcfysN--ceX/pub?gid=1137641856&single=true&output=csv"
+
+logged_data <- read_csv(form_url) 
+
+latest_data <- logged_data %>%
+  rename(time_into_bed = 2,
+         time_out_of_bed = 3,
+         hours_slept = 4,
+         mood = 5)
+
+# Data Exploration ---
+
+
+# Using new function mutate() from lubridate
+latest_data <- latest_data %>%
+  mutate(
+    mood = factor(mood, levels = c("Terrible", "Bad", "Okay", "Good", "Great")))
+
+
+# Using a more appropriate color palette to display mood levels
+graph_1 <- ggplot(latest_data) +
+  geom_bar(aes(x = factor(hours_slept), fill = mood)) +
+  scale_fill_brewer(palette = "RdYlGn") +
+  labs(
+    title = "Mood by Hours Slept",
+    subtitle = "Comparing mood with hours slept",
+    caption = "Source: STATS220 Mood and Sleep Survey",
+    x = "Hours Slept",
+    y = "Participant Count",
+    fill = "Mood")
+
+# Using new function difftime() from lubridate
+latest_data <- latest_data %>%
+  mutate(
+    time_in_bed = difftime(time_out_of_bed, time_into_bed, units = "hours"),
+    time_in_bed = if_else(time_in_bed < 0, time_in_bed + 24, time_in_bed),
+    time_awake_in_bed = time_in_bed - hours_slept)
+
+graph_2 <- ggplot(latest_data) +
+  geom_bar(aes(x = time_awake_in_bed), fill = "lightblue") +
+  labs(
+    title = "Time Awake While in Bed",
+    caption = "Source: STATS220 Mood and Sleep Survey",
+    x = "Hours Awake",
+    y = "Participant Count")
+
+# Average time awake in bed and hours slept
+avg_time_awake <- mean(as.numeric(latest_data$time_awake_in_bed))
+avg_time_sleep <- mean(latest_data$hours_slept)
+
+graph_1
+graph_2
+
+```
+
+<div class="text-container">
+
+Of the data collected:
+
+- The average time awake in bed is `r avg_time_awake` hours.
+
+- The average time asleep is `r avg_time_sleep` hours.
+
+There is a clear trend that an increase in sleep time would lead to a greater mood level. Further discussion can be made on how to reduce the time awake in bed to maximize sleep time. 
+
+</div>
+
+![Sleep is important!](https://c.tenor.com/tw11FMJ8DYAAAAAd/tenor.gif)
