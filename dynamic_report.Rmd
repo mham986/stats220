@@ -9,12 +9,6 @@ knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
 ```
 
 ```{css}
-.text-container {
-  max-width: 700px;
-  margin: 40px auto;
-  text-align: left;
-}
-
 img {
   display: block;
   margin: 20px auto;
@@ -32,13 +26,9 @@ img:hover {
 
 ```
 
-<div class="text-container">
-
 ## A comparison of hours slept, mood level, and time awake in bed.
 
 This survey was conducted through a Google Form. It measures the time a participant got into bed, the time they got out of bed, how many hours they slept, and their overall mood level. With the data collected it aims to correlate mood levels with sleep time. A sub-objective of this survey was to calculate the amount time a participant would spend awake in bed. 
-
-</div>
 
 ```{r}
 # Packages ---
@@ -101,8 +91,6 @@ graph_2
 
 ```
 
-<div class="text-container">
-
 Of the data collected:
 
 - The average time awake in bed is `r avg_time_awake` hours.
@@ -110,7 +98,5 @@ Of the data collected:
 - The average time asleep is `r avg_time_sleep` hours.
 
 There is a clear trend that an increase in sleep time would lead to a greater mood level. Further discussion can be made on how to reduce the time awake in bed to maximize sleep time. 
-
-</div>
 
 ![Sleep is important!](https://c.tenor.com/tw11FMJ8DYAAAAAd/tenor.gif)
