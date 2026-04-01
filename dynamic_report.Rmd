@@ -93,9 +93,9 @@ graph_2
 
 Of the data collected:
 
-- The average time awake in bed is `r avg_time_awake` hours.
+- The average time awake in bed is `r round(avg_time_awake, 1)` hours.
 
-- The average time asleep is `r avg_time_sleep` hours.
+- The average time asleep is `r round(avg_time_sleep, 1)` hours.
 
 There is a clear trend that an increase in sleep time would lead to a greater mood level. Further discussion can be made on how to reduce the time awake in bed to maximize sleep time. 
 
